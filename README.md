@@ -1,66 +1,56 @@
-# DWFA — Tableau de bord d'accès à l'eau potable
+# Sanitoral — Tableau de bord de suivi de projets (Power BI)
 
-Mission de consulting data pour l'ONG DWFA (Drinking Water For All), visant à orienter le choix d'un pays et d'un domaine d'investissement suite à une demande de financement auprès d'un bailleur de fonds.
+Mission de visualisation de données réalisée en tant que consultant Data Analyst chez ESN Data, déployé chez le client Sanitoral, société internationale de soins bucco-dentaires.
 
 ---
 
 ## Contexte / besoin métier
 
-DWFA a pour ambition de donner accès à l'eau potable à tout le monde, à travers trois domaines d'expertise :
-- la création de services d'accès à l'eau potable,
-- la modernisation de services existants,
-- le consulting auprès d'administrations/gouvernements sur les politiques d'accès à l'eau.
+Le service Project Management Office de Sanitoral, piloté par Sophie, cheffe de projet, a besoin d'un tableau de bord pour suivre l'avancement des projets et leurs coûts, identifier les retards, et contrôler les performances afin que l'équipe puisse engager les actions correctives adéquates.
 
-L'association a sollicité un financement auprès d'un bailleur de fonds sur la base de ces trois domaines. Si ce financement est accordé, il permettra d'investir dans l'un des trois domaines, dans un pays encore à déterminer.
-
-Thibaut Renard, chef de mission, a demandé la construction d'un tableau de bord permettant de :
-- identifier les pays rencontrant des difficultés d'accès à l'eau potable,
-- identifier ceux sur lesquels concentrer les efforts d'investissement,
-
-à travers des indicateurs représentatifs des trois domaines d'expertise, organisés en 3 vues (définies lors de la réunion de lancement).
+La démarche a été formalisée dans un **Product Strategy Canvas** (modèle ESN Data), validé par Sophie :
+- **Nom du tableau de bord** : *Pilotage des projets – Vue hiérarchique Groupe / Région / Pays*
+- **Objectif** : établir un ordre hiérarchique de lecture, du niveau groupe jusqu'au niveau pays.
+- **Utilisateurs et user stories identifiés** :
+  - **Directeur général** — être informé des données par région pour identifier les régions en difficulté et échanger avec les directeurs régionaux en cas d'alerte ; visualiser les performances de coûts, délais et avancement par région.
+  - **Directeur régional** — être informé des données par pays et identifier les pays en difficulté ; comparer les indices de performance de ses pays et identifier les écarts ; accéder au détail des projets d'un pays sélectionné pour analyser la situation.
+  - **Directeur de pays** — être informé des données par projet en cas de problème et accéder directement au détail des projets ; suivre l'avancement et les indicateurs clés par projet pour anticiper les risques ; identifier rapidement les projets en alerte pour mettre en place des actions.
 
 ## Données (source, qualité, limites)
 
-**Sources :**
-- Dataset collecté par un data engineer de DWFA, dédié à cette analyse.
-- Dictionnaire des données fourni avec le jeu de données (zip).
-- Sources complémentaires suggérées par Thibaut : sites de l'OMS et de la FAO pour approfondir certains indicateurs.
-- Possibilité d'intégrer d'autres données complémentaires jugées pertinentes, bien que le dataset fourni soit suffisant pour une première analyse.
+**Sources :** jeu de données extrait du logiciel de gestion de projets de Sanitoral (projets entre 2018 et début 2022), accompagné d'un dictionnaire des données.
 
-**Qualité :**
-[À compléter : après exploration — complétude par pays, cohérence des unités et échelles entre indicateurs, année(s) de référence des données]
+**Qualité :** les données brutes nécessitaient un nettoyage avant intégration : colonnes inutilisables pour l'analyse supprimées, lignes en doublon supprimées, valeurs négatives (incohérentes pour des indicateurs comme les coûts ou délais) supprimées.
 
 **Limites :**
-- Le dataset est centré sur les indicateurs jugés utiles à l'analyse par le data engineer : d'éventuels indicateurs pertinents mais absents du fichier devront être recherchés via l'OMS/la FAO ou écartés faute de disponibilité.
-- Le pays cible n'étant pas encore déterminé, l'analyse doit rester comparative à l'échelle de plusieurs pays plutôt que focalisée d'emblée sur un seul territoire.
-[À compléter : autres limites constatées à l'exploration, ex. données manquantes pour certains pays, écarts de fraîcheur entre sources]
+- Le nettoyage a été réalisé manuellement dans cette phase ; l'automatisation complète via Power Query Editor (pour la mise à jour hebdomadaire souhaitée par Sophie) reste à finaliser/documenter dans l'onglet dédié du tableau de bord.
+- Les données s'arrêtent début 2022 : pas de visibilité sur les projets plus récents dans le jeu de données initial.
 
 ## Démarche (choix, outils, étapes)
 
-1. Prise de connaissance du compte-rendu de la réunion de lancement pour identifier les 3 vues attendues et les pistes d'indicateurs déjà évoquées.
-2. Sélection des indicateurs pertinents pour chacun des 3 domaines d'expertise (création, modernisation, consulting politique), à répartir sur les 3 vues.
-3. Rédaction d'un **document de synthèse** présentant, pour chaque vue, les indicateurs retenus et leur justification — livrable intermédiaire à valider avant la construction du tableau de bord.
-4. Réalisation, en option, d'une version basse fidélité (blueprint/mockup) du tableau de bord final, à partir des exemples fournis par Thibaut.
-5. Exploration et préparation du dataset fourni par le data engineer, en s'appuyant sur le dictionnaire des données.
-6. Construction du tableau de bord dans l'outil retenu, avec les 3 vues définies, en veillant à l'**accessibilité** (contrastes, lisibilité, alternatives textuelles).
-7. Préparation d'une démonstration du fonctionnement du tableau de bord pour Thibaut.
+1. Réunion de cadrage avec Sophie, note de cadrage, puis formalisation du Product Strategy Canvas (utilisateurs, user stories, objectif du tableau de bord).
+2. Validation du Product Strategy Canvas par le mentor puis par Sophie, avant tout développement.
+3. Nettoyage des données : suppression des colonnes inexploitables, des doublons et des valeurs négatives, puis structuration de la base de données.
+4. Modélisation des données récupérées du fichier Excel sous forme de tables, chargées et reliées dans **Power BI**.
+5. Construction du tableau de bord avec **3 pages**, une par persona identifié dans le Product Strategy Canvas : *Directeur Général*, *Directeur Régional*, *Directeur Pays* — permettant à chaque niveau hiérarchique de repérer d'où vient un problème.
+6. Création d'une table dédiée pour construire un **diagramme de Gantt**, permettant de visualiser et planifier les projets dans le temps.
+7. Mise en forme d'un onglet de documentation (Product Strategy Canvas, procédure de mise à jour, modèle de données) au sein du tableau de bord.
 
-**Outil :** [À compléter : Tableau (histoire Tableau partagée sur Tableau Public) ou Power BI — choix à trancher]
+**Outil :** Power BI.
 
 ## Résultats + impact / recommandations
 
-- Un document de synthèse présentant les indicateurs sélectionnés pour chacune des 3 vues, couvrant les 3 domaines d'expertise de DWFA.
-- [À compléter, le cas échéant : mockup/blueprint basse fidélité du tableau de bord]
-- Un tableau de bord interactif et accessible, permettant de comparer les pays sur leurs difficultés d'accès à l'eau potable.
-- [À compléter : pays ou groupes de pays identifiés comme prioritaires à l'issue de l'analyse, et domaine d'expertise associé recommandé]
-- **Impact attendu :** aider DWFA à orienter sa décision d'investissement (pays et domaine d'expertise) une fois le financement du bailleur de fonds confirmé.
+- Un Product Strategy Canvas validé, structurant le tableau de bord autour de 3 profils utilisateurs et de leur besoin propre (vision groupe, vision région, vision projet).
+- Un tableau de bord Power BI opérationnel avec **3 pages dédiées** (Directeur Général, Directeur Régional, Directeur Pays), permettant une lecture hiérarchique cohérente avec la demande initiale.
+- Un diagramme de Gantt intégré pour la planification et le suivi temporel des projets.
+- **Impact attendu :** donner à chaque niveau de management chez Sanitoral (du directeur général au directeur de pays) une vue adaptée à son périmètre de décision, pour repérer rapidement l'origine d'un problème et agir avant que les retards ou dérives de coûts ne s'aggravent.
 
 ## Limites + prochaines pistes
 
-- L'analyse s'appuie sur un instantané de données ; une mise à jour régulière serait nécessaire si le tableau de bord doit continuer à orienter les décisions après l'attribution du financement.
-- Le choix final du pays et du domaine reste une décision stratégique de DWFA : le tableau de bord fournit un support d'aide à la décision, pas une décision automatisée.
-[À compléter : pistes complémentaires, ex. enrichissement avec des données OMS/FAO plus récentes ou plus granulaires, ajout d'indicateurs socio-économiques]
+- Le tableau de bord repose sur un historique 2018-début 2022 ; sa pertinence à long terme dépendra de la mise en place effective de l'automatisation Power Query pour les mises à jour hebdomadaires.
+- L'onglet de documentation (procédure de mise à jour, modèle de données) doit encore être complété pour que Sanitoral puisse gérer les futures mises à jour en autonomie, comme demandé par Sophie.
+- Une extension du diagramme de Gantt avec des alertes visuelles automatiques (retards, dépassements budgétaires) pourrait renforcer l'usage par les directeurs de pays au quotidien.
 
 ---
 
-*Projet réalisé dans le cadre de la mission consultant Data Analyst pour l'ONG DWFA (Drinking Water For All), sous la responsabilité de Thibaut Renard, chef de mission.*
+*Projet réalisé dans le cadre de la mission consultant Data Analyst d'ESN Data pour le client Sanitoral, en lien avec Sophie, cheffe de projet PMO.*
